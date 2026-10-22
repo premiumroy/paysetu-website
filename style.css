@@ -724,3 +724,13 @@ footer.site {
   .motion { display: none; }
   .tilt3d { transition: none; }
 }
+
+/* ---------- not-yet-launched state --------------------------------------- */
+/* The app is not public yet, so the calls to action are present but inert: a
+   span, not a link, with nothing to download behind it. */
+.is-soon {
+  opacity: 0.55;
+  cursor: default;
+  pointer-events: none;
+  filter: saturate(0.6);
+}
