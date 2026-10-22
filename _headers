@@ -1,0 +1,22 @@
+# Security headers for Netlify.
+#
+# GitHub Pages cannot send custom response headers at all - this file does
+# nothing there. It is here so that the moment the site is served from Netlify
+# (which does honour it), the full set applies without another change.
+#
+# HSTS is deliberately absent from this list for GitHub Pages compatibility; it
+# is set below for Netlify, which serves over HTTPS only.
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=(), usb=(), interest-cohort=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'
+
+# the one page that loads three.js from a CDN
+/bridge.html
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; base-uri 'self'; form-action 'none'; object-src 'none'
