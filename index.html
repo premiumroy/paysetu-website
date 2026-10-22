@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaySetu — pay over UPI without mobile data</title>
+<meta name="description" content="PaySetu is an Android app for UPI payments over the *99# USSD and 123PAY channels, which work without mobile data. No internet permission.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="mark">पे</span> PaySetu</a>
+    <nav class="site">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="card">
+    <h1>Pay over UPI, even without mobile data</h1>
+    <p class="lede">PaySetu is an Android app for the two UPI channels that work on a plain phone signal: the NPCI <strong>*99#</strong> USSD service and <strong>123PAY</strong>. Scan a QR code, PaySetu opens the right session for you, and your bank's confirmation SMS tells the app the result.</p>
+
+    <div class="grid">
+      <div class="tile">
+        <h3>Works offline</h3>
+        <p>No mobile data or Wi-Fi needed. The payment travels over the *99# USSD channel or the 123PAY call.</p>
+      </div>
+      <div class="tile">
+        <h3>No internet permission</h3>
+        <p>The app cannot open a network connection, so nothing about you can leave your phone.</p>
+      </div>
+      <div class="tile">
+        <h3>Encrypted history</h3>
+        <p>Your payment records stay on the device, encrypted with SQLCipher and a key held by the Android Keystore.</p>
+      </div>
+      <div class="tile">
+        <h3>Your PIN stays yours</h3>
+        <p>PaySetu never sees, asks for, or stores your UPI PIN. You enter it in your bank's own session.</p>
+      </div>
+    </div>
+
+    <h2>How a payment works</h2>
+    <ul>
+      <li>You scan a UPI QR code, or paste a UPI ID, and confirm the amount.</li>
+      <li>PaySetu opens your dialer on the <strong>*99#</strong> session (or dials the 123PAY number) with the payee's UPI ID copied to your clipboard, ready to paste.</li>
+      <li>You complete the payment with your bank and enter your UPI PIN there.</li>
+      <li>Your bank sends a confirmation SMS. PaySetu reads it and shows you whether the payment went through, and keeps a record.</li>
+    </ul>
+
+    <h2>What PaySetu is not</h2>
+    <p>PaySetu is not a bank, a payment aggregator, or a wallet. It does not hold your money, it cannot move money on its own, and it is not affiliated with NPCI or with any bank. It simply prepares the official channel and reports what your bank tells you. The payment itself is between you and your bank.</p>
+
+    <h2>Support and contact</h2>
+    <p>Questions, a problem with the app, or a privacy request — write to <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a> and we will get back to you.</p>
+    <p>PaySetu is published by <strong>Roy Limited</strong>.</p>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Roy Limited · PaySetu</span>
+    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:premiumroy098@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

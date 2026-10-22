@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy — PaySetu</title>
+<meta name="description" content="PaySetu privacy policy: what the app accesses on your phone, why, and how your payment history is stored.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="mark">पे</span> PaySetu</a>
+    <nav class="site">
+      <a href="index.html">Home</a>
+      <a href="privacy-policy.html" aria-current="page">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <article class="card">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Effective 22 October 2026 · Applies to the PaySetu Android app (package <code>com.paysetu.app</code>)</p>
+
+    <p class="lede">PaySetu lets you pay over the UPI <strong>*99#</strong> and <strong>123PAY</strong> channels, which work without mobile data. This page explains exactly what the app accesses on your phone, what it stores, and what it never touches.</p>
+
+    <div class="callout">
+      <p><strong>The short version.</strong> PaySetu has no internet permission. It cannot send your information anywhere, because Android does not allow it to open a network connection at all. Everything the app does happens on your phone.</p>
+    </div>
+
+    <h2>Who we are</h2>
+    <p>PaySetu is developed and published by <strong>Roy Limited</strong> ("we"). For any question about this policy or your data, write to <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a>.</p>
+
+    <h2>How the app works</h2>
+    <p>PaySetu is a helper for offline UPI payments. When you pay, the app opens your phone's dialer with the NPCI <strong>*99#</strong> USSD code (or the 123PAY IVR number), and you complete the payment with your bank inside that session. PaySetu then reads your bank's confirmation SMS so it can show you the result, and keeps a record in an encrypted history on your phone. PaySetu is not a bank, is not a payment aggregator, and never handles money itself.</p>
+
+    <h2>What the app accesses on your device, and why</h2>
+    <table>
+      <thead><tr><th>Access</th><th>Why PaySetu asks for it</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Camera</strong></td><td>To scan a UPI QR code. The code is decoded on your phone. No photo is saved, and nothing is sent.</td></tr>
+        <tr><td><strong>SMS (receive only)</strong></td><td>To read your <em>bank's</em> payment-confirmation SMS, so the app can tell you whether a payment succeeded. The message is read on your phone. The app never stores the message text — only a short summary (amount, status, payee, time). PaySetu never sends an SMS and cannot read your other messages.</td></tr>
+        <tr><td><strong>Phone</strong></td><td>To place the <strong>*99#</strong> / <strong>123PAY</strong> call, and to list the SIMs in your phone so the call goes out from the SIM your bank number is registered on.</td></tr>
+        <tr><td><strong>Answer phone calls</strong></td><td>So the on-screen card can end the call for you when the session is done.</td></tr>
+        <tr><td><strong>Display over other apps</strong></td><td>To show the small guide card over your dialer while a payment is in progress, so you can follow the steps. The card only covers the app's own instructions.</td></tr>
+        <tr><td><strong>Notifications</strong></td><td>To tell you the result of a payment when you are not looking at the app.</td></tr>
+      </tbody>
+    </table>
+    <p>Each of these is asked for at the moment it is needed, and you can refuse any of them. The app explains what it will not work without.</p>
+
+    <h3>The payee's UPI ID and your clipboard</h3>
+    <p>During a <strong>*99#</strong> payment the bank's session asks you to type the payee's UPI ID. Because nobody can retype one from memory, PaySetu copies it to your clipboard so you can paste it. On Android 13 and later it is marked sensitive, so it is not previewed in the clipboard banner, and the app clears it when the payment flow ends.</p>
+
+    <h3>Your UPI PIN</h3>
+    <p>PaySetu <strong>never sees, asks for, or stores your UPI PIN</strong>. You enter it inside the bank's own <strong>*99#</strong> session or on the 123PAY call, which PaySetu cannot read.</p>
+
+    <h2>What PaySetu does not collect</h2>
+    <ul>
+      <li>No account, and no sign-up. The app never asks for your name, email or phone number.</li>
+      <li>No internet permission, so no data can be transmitted from your phone.</li>
+      <li>No analytics, no crash-reporting service, no advertising, and no third-party tracking SDKs.</li>
+      <li>No location, no contacts, and no access to your other apps or your photo library.</li>
+      <li>No access to your other messages, and no ability to send an SMS.</li>
+      <li>Your UPI PIN is never seen, and your bank account number and card details are never asked for.</li>
+    </ul>
+
+    <h2>Where your information is stored</h2>
+    <p>The app's settings and your payment history are stored <strong>only on your phone</strong>, in the app's own private storage area, which other apps cannot read.</p>
+
+    <h2>How your history is protected</h2>
+    <p>Your payment history is kept in a database encrypted with <strong>SQLCipher</strong>. The key that opens it is generated on your phone and protected by the <strong>Android Keystore</strong>, which means the key itself never leaves the device and cannot be copied off it. If the app cannot open the database safely, it sets the old file aside rather than showing you a wrong or empty history.</p>
+
+    <h2>Sharing</h2>
+    <p>We do not share your information with anyone, and the app has no technical means to do so — it cannot connect to the internet. Nothing is sold, and nothing is used for advertising.</p>
+
+    <h2>Keeping and deleting your data</h2>
+    <ul>
+      <li>You can delete individual payments, or your whole history, from the <strong>History</strong> screen inside the app at any time.</li>
+      <li>Uninstalling PaySetu removes everything the app stored, including its encrypted history and its key.</li>
+      <li>Because the app holds nothing on a server, there is no separate deletion request to make — there is nothing for us to delete.</li>
+    </ul>
+
+    <h2>Children</h2>
+    <p>PaySetu is a financial app and is intended for adults. It is not directed at children under 18, and we do not knowingly collect information from them.</p>
+
+    <h2>Your choices and rights</h2>
+    <p>You are in control of everything the app touches. You can refuse any permission, turn off the payee-copy behaviour in Settings, and clear your history whenever you like. If you have a question about how your data is handled, contact us at the address below.</p>
+
+    <h2>Changes to this policy</h2>
+    <p>If this policy changes, we will update the date at the top of this page. Material changes will also be noted in the app's release notes.</p>
+
+    <h2>Contact</h2>
+    <p>Roy Limited — <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a></p>
+  </article>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>© 2026 Roy Limited · PaySetu</span>
+    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:premiumroy098@gmail.com">Contact</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
