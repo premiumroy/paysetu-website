@@ -690,3 +690,37 @@ table.perm td:first-child { color: var(--ink); font-weight: 600; white-space: no
   .screen { padding: 46px 16px 18px; }
   table.perm td:first-child { white-space: normal; }
 }
+
+
+/* ---------- live motion layer -------------------------------------------- */
+/* One fixed canvas behind the content: the perspective grid and the drifting
+   colour fields are drawn there, not in CSS, so they can respond to the
+   pointer and to scroll. */
+.motion {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+main,
+footer.site {
+  position: relative;
+  z-index: 2;
+}
+
+/* The phone leans toward the pointer. The wrapper is created by motion.js, so
+   the markup stays as it was and the float animation on .phone is untouched. */
+.tilt3d {
+  perspective: 1400px;
+  transform-style: preserve-3d;
+  transition: transform 700ms var(--ease);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion { display: none; }
+  .tilt3d { transition: none; }
+}
