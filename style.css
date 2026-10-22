@@ -178,6 +178,10 @@ ul { margin: 0; padding: 0; list-style: none; }
 .nav__links a:hover { color: var(--ink); }
 .nav__links a:hover::after { transform: scaleX(1); }
 
+.nav__cta { height: 38px; padding: 0 15px; font-size: 13.5px; gap: 7px; white-space: nowrap; }
+.nav__cta svg { width: 17px; height: 17px; }
+.mobile-menu__cta { font-weight: 700; color: var(--accent, #35d39a) !important; }
+@media (max-width: 560px) { .nav__cta { display: none; } }
 .nav__right { display: flex; align-items: center; gap: 12px; }
 
 .icon-btn {

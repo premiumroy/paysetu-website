@@ -100,9 +100,10 @@
       });
     }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
     revealables.forEach(function (el) { io.observe(el); });
-    // Safety net: if the observer never fired (an old engine, a quirk, anything), show
-    // everything rather than leave the page blank.
-    setTimeout(function () { if (!revealedSomething) revealAll(); }, 2600);
+    // Safety net: reveal anything the observer has not reached, whatever happened.
+    // The old test was `if (!revealedSomething)`, which went quiet the moment a single
+    // element revealed - so any section the observer skipped stayed invisible for good.
+    setTimeout(revealAll, 1800);
   } else {
     revealAll();
   }
