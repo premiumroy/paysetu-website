@@ -112,7 +112,7 @@
 
     for (var i = -12; i <= 12; i++) {
       var a = i * 0.16 + (pointer.x - 0.5) * 0.09;
-      ctx.strokeStyle = "rgba(" + tone + Math.max(0, (0.055 - Math.abs(i) * 0.0025) * scale).toFixed(3) + ")";
+      ctx.strokeStyle = "rgba(" + tone + Math.max(0, (0.105 - Math.abs(i) * 0.0042) * scale).toFixed(3) + ")";
       ctx.beginPath();
       ctx.moveTo(vx, vy);
       ctx.lineTo(vx + Math.sin(a) * w * 2.4, vy + Math.cos(a) * h * 2.4);
@@ -124,12 +124,20 @@
       var z = (k + (drift % 1)) / rows;
       var y = vy + (h - vy) * (z * z * 2.1);
       if (y < vy + 2 || y > h + 40) continue;
-      ctx.strokeStyle = "rgba(" + tone + ((0.03 + z * 0.11) * scale).toFixed(3) + ")";
+      ctx.strokeStyle = "rgba(" + tone + ((0.05 + z * 0.20) * scale).toFixed(3) + ")";
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(w, y);
       ctx.stroke();
     }
+
+    // a band of light sitting on the horizon, so the depth has a source
+    var band = ctx.createLinearGradient(0, vy - h * 0.16, 0, vy + h * 0.06);
+    band.addColorStop(0, "rgba(120,140,255,0)");
+    band.addColorStop(0.72, light ? "rgba(90,110,190,0.10)" : "rgba(150,175,255,0.16)");
+    band.addColorStop(1, "rgba(120,140,255,0)");
+    ctx.fillStyle = band;
+    ctx.fillRect(0, vy - h * 0.16, w, h * 0.22);
   }
 
   function fields(t) {
