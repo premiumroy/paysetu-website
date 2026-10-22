@@ -734,3 +734,112 @@ footer.site {
   pointer-events: none;
   filter: saturate(0.6);
 }
+
+
+/* ==========================================================================
+   Design system v2 - restrained fintech
+   --------------------------------------------------------------------------
+   One ink/navy base, one warm white, one teal accent. The previous pass leaned
+   on purple-to-blue gradients, translucent glass panels and glowing borders;
+   all three are gone. Surfaces are solid and quiet, the only colour that
+   carries meaning is the teal, and depth comes from a single hairline border
+   and a very soft shadow rather than from glow.
+   ========================================================================== */
+
+:root {
+  --bg: #0b1220;
+  --bg-2: #0e1626;
+  --surface: #111a2b;
+  --surface-2: #16203300;
+  --surface-raised: #162033;
+
+  --glass: #111a2b;
+  --glass-2: #162033;
+
+  --stroke: rgba(255, 255, 255, 0.07);
+  --stroke-2: rgba(255, 255, 255, 0.12);
+
+  --ink: #f4f1eb;
+  --ink-2: #a9b6c7;
+  --muted: #8494a8;
+
+  --teal: #12b0a0;
+  --teal-ink: #04211f;
+  --teal-soft: rgba(18, 176, 160, 0.12);
+
+  /* the old accent names still appear in markup; they all resolve to the one
+     accent now, which is the point of a single-colour system */
+  --indigo: var(--teal);
+  --cyan: var(--teal);
+  --green: var(--teal);
+  --saffron: var(--teal);
+
+  --grad: none;
+  --grad-warm: none;
+  --grad-text: none;
+  --glow: none;
+
+  --s1: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --s2: 0 12px 28px rgba(0, 0, 0, 0.34);
+  --s3: 0 26px 60px rgba(0, 0, 0, 0.42);
+}
+
+[data-theme="light"] {
+  --bg: #faf8f4;
+  --bg-2: #ffffff;
+  --surface: #ffffff;
+  --glass: #ffffff;
+  --glass-2: #ffffff;
+  --stroke: rgba(11, 18, 32, 0.10);
+  --stroke-2: rgba(11, 18, 32, 0.16);
+  --ink: #0b1220;
+  --ink-2: #43506a;
+  --muted: #6b7891;
+  --teal: #0e8f83;
+  --teal-soft: rgba(14, 143, 131, 0.10);
+}
+
+/* The animated gradient field and the canvas are both gone: the brief rules out
+   gradient backgrounds everywhere and floating decoration. */
+.aurora, .grain, .motion { display: none !important; }
+
+body { background: var(--bg); }
+
+/* anything that used to be a gradient is now flat */
+[style*="--grad"], .hero__title, .section__title { background: none; -webkit-text-fill-color: currentColor; }
+.hero__title em, .grad-text { background: none; -webkit-text-fill-color: currentColor; color: var(--teal); }
+
+/* surfaces: solid, one hairline, one soft shadow. No blur, no glow. */
+.card, .pill, .not, .q, .phone, .cta, .node, .step {
+  backdrop-filter: none;
+  background: var(--surface);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--s2);
+}
+
+/* buttons: a filled teal primary and a quiet outlined secondary */
+.btn { border-radius: 10px; box-shadow: none; backdrop-filter: none; }
+.btn--primary {
+  background: var(--teal);
+  color: var(--teal-ink);
+  border: 1px solid var(--teal);
+}
+.btn--primary:hover { background: #15c4b2; border-color: #15c4b2; }
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--stroke-2);
+}
+.btn--ghost:hover { background: var(--surface); border-color: var(--teal); }
+
+/* the accent is the only saturated thing on the page */
+.chip, .tag { background: var(--teal-soft); border-color: transparent; color: var(--teal); }
+
+/* a single, honest note under the phone mockup */
+.mockup-note {
+  margin-top: 14px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 42ch;
+}
