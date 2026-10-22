@@ -805,9 +805,24 @@ footer.site {
 
 body { background: var(--bg); }
 
-/* anything that used to be a gradient is now flat */
-[style*="--grad"], .hero__title, .section__title { background: none; -webkit-text-fill-color: currentColor; }
-.hero__title em, .grad-text { background: none; -webkit-text-fill-color: currentColor; color: var(--teal); }
+/* Anything that used to be gradient text is flat now. The word spans inside the
+   headline each carried their own `-webkit-text-fill-color: transparent` so the
+   gradient could show through - setting the fill on the parent alone leaves them
+   invisible, which is what truncated the headline. Every descendant is reset. */
+[style*="--grad"] {
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+.hero__title, .hero__title *, .section__title, .section__title * {
+  background-image: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+  -webkit-text-fill-color: currentColor !important;
+  color: inherit;
+}
+.hero__title em, .hero__title .w em, .grad-text { color: var(--teal); }
 
 /* surfaces: solid, one hairline, one soft shadow. No blur, no glow. */
 .card, .pill, .not, .q, .phone, .cta, .node, .step {
