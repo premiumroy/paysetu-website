@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PaySetu — Your World. Connected.</title>
+<meta name="description" content="PaySetu is an Android app for the UPI channels that work without mobile data: the NPCI *99# USSD service and 123PAY. No internet permission.">
+<meta name="theme-color" content="#04060d">
+<meta property="og:title" content="PaySetu — Your World. Connected.">
+<meta property="og:description" content="A companion for everyday UPI payment tasks, built for the *99# and 123PAY channels.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #04060d;
+    --ink: #eef3fb;
+    --ink-2: #a9b8d4;
+    --muted: #7b8aa8;
+    --cyan: #7ff0ff;
+    --lavender: #b9a8ff;
+    --glass: rgba(255, 255, 255, 0.045);
+    --stroke: rgba(255, 255, 255, 0.10);
+    --font: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-hi: "Noto Sans Devanagari", var(--font);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--night); color: var(--ink); font-family: var(--font);
+    overflow: hidden; -webkit-font-smoothing: antialiased;
+  }
+
+  /* The world. It fills the viewport and everything else floats over it. */
+  #stage { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+  /* Fallback: if WebGL is unavailable the canvas is hidden and this carries the
+     frame, so the page never looks broken. */
+  .fallback {
+    position: fixed; inset: 0; display: none;
+    background:
+      radial-gradient(120% 80% at 50% 78%, rgba(127, 240, 255, 0.16), transparent 60%),
+      radial-gradient(90% 70% at 50% 20%, rgba(185, 168, 255, 0.12), transparent 65%),
+      #04060d;
+  }
+  body.no-webgl .fallback { display: block; }
+  body.no-webgl #stage { display: none; }
+
+  .vignette {
+    position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(3, 5, 11, 0.82) 100%);
+  }
+
+  .shell {
+    position: relative; z-index: 2; height: 100%;
+    display: flex; flex-direction: column; justify-content: space-between;
+    padding: clamp(20px, 4vw, 44px);
+  }
+
+  header { display: flex; align-items: center; justify-content: space-between; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -0.01em; }
+  .mark {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: linear-gradient(120deg, var(--lavender), var(--cyan));
+    display: grid; place-items: center; color: #04101c; font-weight: 800; font-size: 15px;
+  }
+  nav { display: flex; gap: 22px; font-size: 13.5px; }
+  nav a { color: var(--ink-2); text-decoration: none; transition: color 240ms ease; }
+  nav a:hover, nav a:focus-visible { color: var(--ink); }
+  nav a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; border-radius: 4px; }
+
+  main { max-width: 620px; }
+  .kicker {
+    font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cyan); opacity: 0.85; margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(34px, 6.2vw, 62px); font-weight: 600; line-height: 1.04;
+    letter-spacing: -0.03em; margin-bottom: 18px;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(100deg, #b9b7ff, #7ee8f7 55%, #6ff0c0);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hi {
+    font-family: var(--font-hi); font-size: clamp(15px, 2.1vw, 19px);
+    color: var(--ink-2); margin-bottom: 14px;
+  }
+  p.lede { font-size: clamp(14.5px, 1.7vw, 17px); color: var(--ink-2); line-height: 1.65; max-width: 46ch; }
+
+  .cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 9px;
+    height: 46px; padding: 0 22px; border-radius: 999px;
+    font-size: 14.5px; font-weight: 600; text-decoration: none;
+    border: 1px solid transparent; transition: transform 260ms cubic-bezier(.22,1,.36,1), background 260ms ease;
+  }
+  .btn--primary { background: linear-gradient(120deg, #c9c2ff, #7ff0ff); color: #04101c; }
+  .btn--ghost { border-color: var(--stroke); color: var(--ink); background: var(--glass); backdrop-filter: blur(8px); }
+  .btn:hover { transform: translateY(-2px); }
+  .btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; }
+
+  footer { display: flex; flex-wrap: wrap; gap: 10px 20px; align-items: center; font-size: 12.5px; color: var(--muted); }
+  footer a { color: var(--muted); text-decoration: none; }
+  footer a:hover { color: var(--ink-2); }
+
+  .hint {
+    position: fixed; left: 50%; bottom: 14px; transform: translateX(-50%);
+    font-size: 11.5px; letter-spacing: 0.06em; color: rgba(200, 214, 240, 0.38);
+    pointer-events: none; z-index: 3;
+  }
+
+  @media (max-width: 720px) {
+    nav { display: none; }
+    .shell { justify-content: flex-end; padding-bottom: 30px; }
+    main { max-width: 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="fallback" aria-hidden="true"></div>
+<div class="vignette" aria-hidden="true"></div>
+
+<div class="shell">
+  <header>
+    <a class="brand" href="index.html" aria-label="PaySetu">
+      <span class="mark" aria-hidden="true">P</span> PaySetu
+    </a>
+    <nav aria-label="Primary">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="privacy-policy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+    </nav>
+  </header>
+
+  <main>
+    <p class="kicker">Built for the *99# and 123PAY channels</p>
+    <h1>Your World. <em>Connected.</em></h1>
+    <p class="hi">PaySetu — आपके पेमेंट सफ़र का साथी।</p>
+    <p class="lede">
+      A thoughtfully designed companion for everyday UPI payment tasks. PaySetu prepares the
+      NPCI *99# USSD session or the 123PAY call, and reads your bank's own confirmation SMS —
+      with no internet permission at all.
+    </p>
+    <div class="cta">
+      <a class="btn btn--primary" href="index.html">Discover PaySetu</a>
+      <a class="btn btn--ghost" href="index.html#how">See how it works</a>
+    </div>
+  </main>
+
+  <footer>
+    <span>© 2026 Roy Limited · PaySetu</span>
+    <a href="privacy-policy.html">Privacy policy</a>
+    <a href="terms.html">Terms of use</a>
+    <span>Not affiliated with NPCI or any bank.</span>
+  </footer>
+</div>
+
+<div class="hint" id="hint">drag to turn the world · scroll to travel</div>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import { createBridge } from "./bridge.js";
+
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const lowPower = (navigator.hardwareConcurrency || 4) <= 4 || matchMedia("(max-width: 720px)").matches;
+
+const world = createBridge(document.getElementById("stage"), {
+  reducedMotion: reduced,
+  lowPower
+});
+
+if (!world) {
+  document.body.classList.add("no-webgl");
+} else {
+  // Scroll is the travel control. The page is a normal, scrollable document -
+  // the world follows it rather than trapping the visitor in a pinned scene.
+  let target = 0, current = 0;
+  const onScroll = () => {
+    const max = Math.max(1, document.body.scrollHeight - innerHeight);
+    target = Math.min(1, Math.max(0, scrollY / max));
+  };
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  addEventListener("pointermove", (e) => {
+    world.setPointer((e.clientX / innerWidth - 0.5) * 2, (e.clientY / innerHeight - 0.5) * 2);
+  }, { passive: true });
+
+  (function ease() {
+    current += (target - current) * (reduced ? 1 : 0.06);
+    world.setProgress(current);
+    requestAnimationFrame(ease);
+  })();
+
+  const hint = document.getElementById("hint");
+  addEventListener("pointerdown", () => { hint.style.opacity = "0"; }, { once: true });
+  setTimeout(() => { hint.style.opacity = "0"; }, 8000);
+}
+</script>
+</body>
+</html>
