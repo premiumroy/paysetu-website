@@ -1,72 +1,487 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PaySetu — pay over UPI without mobile data</title>
-<meta name="description" content="PaySetu is an Android app for UPI payments over the *99# USSD and 123PAY channels, which work without mobile data. No internet permission.">
-<link rel="stylesheet" href="styles.css">
+<title>PaySetu — pay over UPI, even without mobile data</title>
+<meta name="description" content="PaySetu is an Android app for UPI payments over the NPCI *99# USSD and 123PAY channels, which work with no mobile data. It has no internet permission at all.">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://premiumroy.github.io/paysetu-website/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="PaySetu — pay over UPI, even without mobile data">
+<meta property="og:description" content="UPI payments over *99# and 123PAY, on a plain phone signal. No internet permission, no accounts, encrypted history.">
+<meta property="og:url" content="https://premiumroy.github.io/paysetu-website/">
+<meta property="og:image" content="https://premiumroy.github.io/paysetu-website/og.jpg">
+<meta property="og:site_name" content="PaySetu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="PaySetu — pay over UPI, even without mobile data">
+<meta name="twitter:description" content="UPI payments over *99# and 123PAY, on a plain phone signal. No internet permission.">
+<meta name="twitter:image" content="https://premiumroy.github.io/paysetu-website/og.jpg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<script>
+  /* Apply the saved theme before first paint, so there is no flash of the wrong one. */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    try {
+      var t = localStorage.getItem("paysetu-theme");
+      d.setAttribute("data-theme", t === "light" ? "light" : "dark");
+    } catch (e) { d.setAttribute("data-theme", "dark"); }
+  })();
+</script>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html"><span class="mark">पे</span> PaySetu</a>
-    <nav class="site">
-      <a href="index.html" aria-current="page">Home</a>
-      <a href="privacy-policy.html">Privacy</a>
-      <a href="terms.html">Terms</a>
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true" id="cursor"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<!-- ============ icon sprite ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="9" fill="url(#g1)"/>
+    <path d="M8 19c2.6-5.6 5.4-8.4 8-8.4s5.4 2.8 8 8.4" fill="none" stroke="#04120c" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="8" cy="19" r="2.1" fill="#04120c"/><circle cx="24" cy="19" r="2.1" fill="#04120c"/>
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32">
+      <stop offset="0" stop-color="#6d6bff"/><stop offset=".52" stop-color="#22d3ee"/><stop offset="1" stop-color="#12c08a"/>
+    </linearGradient></defs>
+  </symbol>
+  <symbol id="i-signal-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <path d="M4 18h2.2v-3H4zM9 18h2.2v-7H9zM14 18h2.2V7H14zM19 18h1.5"/>
+    <path d="M3 3l18 18" stroke="#ffb020"/>
+  </symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3l7 3v5.5c0 4.3-2.9 8.1-7 9.5-4.1-1.4-7-5.2-7-9.5V6z"/><path d="M9 12l2 2 4-4"/>
+  </symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path class="shackle" d="M8 10.5V8a4 4 0 018 0v2.5"/>
+  </symbol>
+  <symbol id="i-key" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="8" cy="8" r="4"/><path d="M11 11l9 9M17 17l2-2M14 14l2-2"/>
+  </symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/>
+    <rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><path d="M13.5 13.5h3v3h-3zM20.5 13.5v3M17 20.5h3.5"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 006 6l1.5-2 4 1.5v3c0 1.1-.9 2-2 2A16 16 0 014.5 5.5c0-1.1.9-2 2-2z"/>
+  </symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4.5 12.5l5 5 10-11"/>
+  </symbol>
+  <symbol id="i-bank" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.5 9.5L12 4l8.5 5.5M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3.5 20.5h17"/>
+  </symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 12.5c0 3.9-3.6 7-8 7a9.6 9.6 0 01-2.6-.35L5 21l1.2-3.4A6.6 6.6 0 014 12.5c0-3.9 3.6-7 8-7s8 3.1 8 7z"/>
+  </symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+    <path d="M12 5v14M5 12h14"/>
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/>
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/>
+  </symbol>
+  <symbol id="i-android" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5.5 10.5h13v6a2 2 0 01-2 2h-9a2 2 0 01-2-2z"/><path d="M8 10.5L6.6 6.8M16 10.5l1.4-3.7M3.5 12.5v4M20.5 12.5v4"/>
+    <circle cx="9.5" cy="14" r=".9" fill="currentColor" stroke="none"/><circle cx="14.5" cy="14" r=".9" fill="currentColor" stroke="none"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M5 12h13M13 6.5l5.5 5.5L13 17.5"/>
+  </symbol>
+  <symbol id="i-ban" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="12" cy="12" r="8.5"/><path d="M6.4 6.4l11.2 11.2"/>
+  </symbol>
+</svg>
+
+<!-- ============ nav ============ -->
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html" aria-label="PaySetu home">
+      <svg aria-hidden="true"><use href="#i-mark"/></svg>
+      <span class="brand__name">PaySetu</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#faq">FAQ</a>
     </nav>
+    <div class="nav__right">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch colour theme" title="Switch theme">
+        <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <button class="icon-btn burger" id="burger" type="button" aria-expanded="false" aria-controls="mobilemenu" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="wrap mobile-menu" id="mobilemenu">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#faq">FAQ</a>
+    <a href="privacy-policy.html">Privacy policy</a>
+    <a href="terms.html">Terms</a>
   </div>
 </header>
 
-<main class="wrap">
-  <article class="card">
-    <h1>Pay over UPI, even without mobile data</h1>
-    <p class="lede">PaySetu is an Android app for the two UPI channels that work on a plain phone signal: the NPCI <strong>*99#</strong> USSD service and <strong>123PAY</strong>. Scan a QR code, PaySetu opens the right session for you, and your bank's confirmation SMS tells the app the result.</p>
+<main id="main">
 
-    <div class="grid">
-      <div class="tile">
-        <h3>Works offline</h3>
-        <p>No mobile data or Wi-Fi needed. The payment travels over the *99# USSD channel or the 123PAY call.</p>
+  <!-- ============ 1. hero ============ -->
+  <section class="hero wrap" aria-labelledby="hero-title">
+    <div class="hero__grid">
+      <div>
+        <span class="eyebrow reveal"><span class="dot"></span> Built for the *99# and 123PAY channels</span>
+        <h1 class="hero__title" id="hero-title" data-split-words>
+          Pay over UPI, even <span class="w--grad">without mobile data.</span>
+        </h1>
+        <p class="hero__sub reveal" style="--d:520ms">
+          PaySetu prepares the NPCI <strong>*99#</strong> USSD session or the <strong>123PAY</strong> call in your dialer,
+          copies the payee's UPI ID so you can paste it, and reads your bank's own confirmation SMS to tell you how it went.
+          It has no internet permission — it could not send your data anywhere even if it wanted to.
+        </p>
+        <div class="hero__cta reveal" style="--d:620ms">
+          <a class="btn btn--primary" href="#get" data-magnetic>
+            <svg aria-hidden="true"><use href="#i-android"/></svg> Download for Android
+          </a>
+          <a class="btn btn--ghost" href="#how" data-magnetic>
+            See how it works <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+          </a>
+        </div>
+        <div class="chips" aria-label="What PaySetu does not need">
+          <span class="chip chip--off" style="animation-delay:.72s"><svg aria-hidden="true"><use href="#i-signal-off"/></svg> No mobile data</span>
+          <span class="chip chip--off" style="animation-delay:.80s"><svg aria-hidden="true"><use href="#i-ban"/></svg> No Wi-Fi</span>
+          <span class="chip" style="animation-delay:.88s"><svg aria-hidden="true"><use href="#i-shield"/></svg> No internet permission</span>
+        </div>
       </div>
-      <div class="tile">
-        <h3>No internet permission</h3>
-        <p>The app cannot open a network connection, so nothing about you can leave your phone.</p>
-      </div>
-      <div class="tile">
-        <h3>Encrypted history</h3>
-        <p>Your payment records stay on the device, encrypted with SQLCipher and a key held by the Android Keystore.</p>
-      </div>
-      <div class="tile">
-        <h3>Your PIN stays yours</h3>
-        <p>PaySetu never sees, asks for, or stores your UPI PIN. You enter it in your bank's own session.</p>
+
+      <!-- phone: cycles scan → confirm → done -->
+      <div class="stage reveal" style="--d:260ms">
+        <div class="phone" data-phone="cycle" aria-hidden="true">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+
+            <div class="screen is-active" data-screen="scan">
+              <div class="scr__top"><span>PaySetu</span><span>Step 1 of 3</span></div>
+              <div class="scr__title">Scan a UPI QR</div>
+              <div class="viewfinder">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#edf2fa" stroke-width="4" stroke-linejoin="round">
+                  <rect x="6" y="6" width="26" height="26" rx="5"/><rect x="68" y="6" width="26" height="26" rx="5"/>
+                  <rect x="6" y="68" width="26" height="26" rx="5"/>
+                  <path d="M46 6h10v10H46zM68 46h10v10H68zM46 46h10v10H46zM46 68h10v10H46zM68 68h10v10H68zM84 46h10v10H84z" stroke-width="6"/>
+                </svg>
+                <span class="scanline"></span>
+              </div>
+              <div class="scr__ghost">Point at any UPI QR</div>
+            </div>
+
+            <div class="screen" data-screen="confirm">
+              <div class="scr__top"><span>Confirm</span><span>Step 2 of 3</span></div>
+              <div class="scr__label">You are paying</div>
+              <div class="amount"><span>₹</span>250</div>
+              <div class="payee"><span class="payee__av">R</span><span>rohit@okhdfcbank</span></div>
+              <div class="scr__rows">
+                <div class="row"><span>Channel</span><b>*99# USSD</b></div>
+                <div class="row"><span>Data needed</span><b>None</b></div>
+              </div>
+              <div class="scr__cta">Continue in dialer</div>
+            </div>
+
+            <div class="screen" data-screen="done">
+              <div class="scr__top"><span>Result</span><span>Step 3 of 3</span></div>
+              <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg></div>
+              <div class="scr__title" style="text-align:center">Payment successful</div>
+              <div class="scr__rows">
+                <div class="row"><span>Paid to</span><b>rohit@okhdfcbank</b></div>
+                <div class="row"><span>Amount</span><b>₹250.00</b></div>
+                <div class="row"><span>Confirmed by</span><b>Bank SMS</b></div>
+              </div>
+              <div class="scr__ghost">Saved to encrypted history</div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <h2>How a payment works</h2>
-    <ul>
-      <li>You scan a UPI QR code, or paste a UPI ID, and confirm the amount.</li>
-      <li>PaySetu opens your dialer on the <strong>*99#</strong> session (or dials the 123PAY number) with the payee's UPI ID copied to your clipboard, ready to paste.</li>
-      <li>You complete the payment with your bank and enter your UPI PIN there.</li>
-      <li>Your bank sends a confirmation SMS. PaySetu reads it and shows you whether the payment went through, and keeps a record.</li>
-    </ul>
+  <!-- ============ 2. trust strip ============ -->
+  <section class="trust wrap" aria-label="Why people trust PaySetu">
+    <div class="trust__row">
+      <div class="pill reveal"><svg aria-hidden="true"><use href="#i-signal-off"/></svg><span><b>Works offline</b><span>USSD and IVR, not data</span></span></div>
+      <div class="pill reveal" style="--d:80ms"><svg aria-hidden="true"><use href="#i-shield"/></svg><span><b>No internet permission</b><span>Nothing can leave the phone</span></span></div>
+      <div class="pill reveal" style="--d:160ms"><svg aria-hidden="true"><use href="#i-lock"/></svg><span><b>Encrypted history</b><span>SQLCipher on the device</span></span></div>
+      <div class="pill reveal" style="--d:240ms"><svg aria-hidden="true"><use href="#i-key"/></svg><span><b>Your PIN stays yours</b><span>Never seen, never stored</span></span></div>
+    </div>
+  </section>
 
-    <h2>What PaySetu is not</h2>
-    <p>PaySetu is not a bank, a payment aggregator, or a wallet. It does not hold your money, it cannot move money on its own, and it is not affiliated with NPCI or with any bank. It simply prepares the official channel and reports what your bank tells you. The payment itself is between you and your bank.</p>
+  <!-- ============ 3. features ============ -->
+  <section class="wrap" id="features" aria-labelledby="features-title">
+    <div class="section__head">
+      <p class="kicker reveal">What it does</p>
+      <h2 class="section__title reveal" id="features-title" style="--d:60ms">Four things, done properly.</h2>
+      <p class="section__sub reveal" style="--d:120ms">No accounts, no analytics, no advertising SDKs. Just the payment channel, and a record you control.</p>
+    </div>
 
-    <h2>Support and contact</h2>
-    <p>Questions, a problem with the app, or a privacy request — write to <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a> and we will get back to you.</p>
-    <p>PaySetu is published by <strong>Roy Limited</strong>.</p>
-  </article>
+    <div class="bento">
+      <article class="card card--wide reveal" data-glow>
+        <div class="card__icon"><svg aria-hidden="true"><use href="#i-signal-off"/></svg></div>
+        <h3>Works with zero data</h3>
+        <p>The <strong>*99#</strong> USSD service and <strong>123PAY</strong> IVR run on the ordinary phone signal. That is what PaySetu uses, so a dead data connection is not a dead end.</p>
+        <div class="card__meta"><span class="tag">USSD</span><span class="tag">IVR</span><span class="tag">Offline</span></div>
+      </article>
+
+      <article class="card card--half reveal" data-glow style="--d:80ms">
+        <div class="card__icon"><svg aria-hidden="true"><use href="#i-shield"/></svg></div>
+        <h3>No internet permission</h3>
+        <p>The app declares no <code>INTERNET</code> permission. Android will not let it open a connection, so there is no code path that could leak anything.</p>
+      </article>
+
+      <article class="card card--half reveal" data-glow style="--d:160ms">
+        <div class="card__icon"><svg aria-hidden="true"><use href="#i-lock"/></svg></div>
+        <h3>Encrypted history</h3>
+        <p>Your payment records live in a <strong>SQLCipher</strong> database whose key is wrapped by the <strong>Android Keystore</strong>. The key never leaves the device.</p>
+      </article>
+
+      <article class="card card--half reveal" data-glow style="--d:240ms">
+        <div class="card__icon"><svg aria-hidden="true"><use href="#i-key"/></svg></div>
+        <h3>Your PIN stays yours</h3>
+        <p>PaySetu never asks for, sees or stores your UPI PIN. You type it into your bank's own session, which the app cannot read.</p>
+      </article>
+
+      <article class="card card--half reveal" data-glow style="--d:320ms">
+        <div class="card__icon"><svg aria-hidden="true"><use href="#i-chat"/></svg></div>
+        <h3>Confirmation, not guesswork</h3>
+        <p>The bank's confirmation SMS is read on the phone and turned into a short summary. The message text itself is never stored.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 4. how it works ============ -->
+  <section class="wrap" id="how" aria-labelledby="how-title">
+    <div class="section__head">
+      <p class="kicker reveal">Step by step</p>
+      <h2 class="section__title reveal" id="how-title" style="--d:60ms">How a payment works.</h2>
+      <p class="section__sub reveal" style="--d:120ms">Four steps, and the app steps out of the way for the third one — the one that matters.</p>
+    </div>
+
+    <div class="how__grid" style="margin-top:44px">
+      <div class="steps" id="steps">
+        <span class="steps__bar" id="stepsbar" aria-hidden="true"></span>
+
+        <article class="step is-active" data-step="0">
+          <div class="step__num">1</div>
+          <div><h3>Scan a QR, or paste a UPI ID</h3>
+            <p>Point the camera at any UPI QR code, or type the UPI ID. The code is decoded on the phone; no image is saved or sent.</p></div>
+        </article>
+
+        <article class="step" data-step="1">
+          <div class="step__num">2</div>
+          <div><h3>PaySetu opens the right channel</h3>
+            <p>Your dialer opens on the <strong>*99#</strong> session (or dials the 123PAY number), with the payee's UPI ID already on the clipboard, ready to paste.</p></div>
+        </article>
+
+        <article class="step" data-step="2">
+          <div class="step__num">3</div>
+          <div><h3>You complete it with your bank</h3>
+            <p>The payment happens inside your bank's own session. You choose the amount and enter your UPI PIN there — PaySetu is not part of it and cannot read it.</p></div>
+        </article>
+
+        <article class="step" data-step="3">
+          <div class="step__num">4</div>
+          <div><h3>The bank's SMS confirms it</h3>
+            <p>PaySetu reads your bank's confirmation SMS, shows you the outcome, and keeps a summary in your encrypted history.</p></div>
+        </article>
+      </div>
+
+      <div class="how__stage reveal">
+        <div class="phone" data-phone="steps" aria-hidden="true">
+          <div class="phone__screen">
+            <div class="phone__notch"></div>
+
+            <div class="screen is-active" data-screen="scan">
+              <div class="scr__top"><span>PaySetu</span><span>1 / 4</span></div>
+              <div class="scr__title">Scan a UPI QR</div>
+              <div class="viewfinder">
+                <svg viewBox="0 0 100 100" fill="none" stroke="#edf2fa" stroke-width="4" stroke-linejoin="round">
+                  <rect x="6" y="6" width="26" height="26" rx="5"/><rect x="68" y="6" width="26" height="26" rx="5"/>
+                  <rect x="6" y="68" width="26" height="26" rx="5"/>
+                  <path d="M46 6h10v10H46zM68 46h10v10H68zM46 46h10v10H46zM46 68h10v10H46zM68 68h10v10H68zM84 46h10v10H84z" stroke-width="6"/>
+                </svg>
+                <span class="scanline"></span>
+              </div>
+              <div class="scr__ghost">Decoded on the device</div>
+            </div>
+
+            <div class="screen" data-screen="dial">
+              <div class="scr__top"><span>Dialer</span><span>2 / 4</span></div>
+              <div class="scr__label">Opening</div>
+              <div class="amount" style="font-family:ui-monospace,monospace;letter-spacing:-0.02em">*99#</div>
+              <div class="scr__rows">
+                <div class="row"><span>UPI ID copied</span><b>rohit@okhdfcbank</b></div>
+                <div class="row"><span>Channel</span><b>USSD</b></div>
+                <div class="row"><span>Data used</span><b>0 KB</b></div>
+              </div>
+              <div class="scr__cta">Paste and continue</div>
+            </div>
+
+            <div class="screen" data-screen="bank">
+              <div class="scr__top"><span>Your bank</span><span>3 / 4</span></div>
+              <div class="scr__title">Bank session</div>
+              <div class="scr__rows">
+                <div class="row"><span>Paying</span><b>rohit@okhdfcbank</b></div>
+                <div class="row"><span>Amount</span><b>₹250.00</b></div>
+                <div class="row"><span>UPI PIN</span><b>entered here, not in PaySetu</b></div>
+              </div>
+              <div class="payee" style="margin-top:auto"><span class="payee__av"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width:16px;height:16px"><use href="#i-key"/></svg></span><span>PaySetu cannot read this step</span></div>
+            </div>
+
+            <div class="screen" data-screen="done">
+              <div class="scr__top"><span>Result</span><span>4 / 4</span></div>
+              <div class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg></div>
+              <div class="scr__title" style="text-align:center">Payment successful</div>
+              <div class="scr__rows">
+                <div class="row"><span>Confirmed by</span><b>Bank SMS</b></div>
+                <div class="row"><span>Saved</span><b>Encrypted history</b></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 5. privacy ============ -->
+  <section class="wrap" id="privacy" aria-labelledby="privacy-title">
+    <div class="privacy__grid">
+      <div>
+        <p class="kicker reveal">Privacy</p>
+        <h2 class="section__title reveal" id="privacy-title" style="--d:60ms">Your data never leaves your phone.</h2>
+        <p class="section__sub reveal" style="--d:120ms">
+          Not as a promise — as a property of how the app is built. PaySetu holds no account for you, runs no analytics,
+          and is not allowed by Android to open a network connection. The payment history sits in an encrypted database on the device.
+        </p>
+
+        <div class="ledger">
+          <div class="ledger__cell reveal" data-glow><div class="ledger__num" data-count="0">0</div><div class="ledger__cap">Ads shown</div></div>
+          <div class="ledger__cell reveal" data-glow style="--d:70ms"><div class="ledger__num" data-count="0">0</div><div class="ledger__cap">Trackers built in</div></div>
+          <div class="ledger__cell reveal" data-glow style="--d:140ms"><div class="ledger__num" data-count="0">0</div><div class="ledger__cap">Bytes sent to us</div></div>
+          <div class="ledger__cell reveal" data-glow style="--d:210ms"><div class="ledger__num" data-count="100">100<span class="u">%</span></div><div class="ledger__cap">On your device</div></div>
+        </div>
+
+        <div class="lock-badge reveal" style="--d:280ms">
+          <svg aria-hidden="true"><use href="#i-lock"/></svg>
+          <span>Encrypted with SQLCipher, key held by the Android Keystore</span>
+        </div>
+      </div>
+
+      <div class="diagram reveal" style="--d:160ms">
+        <div class="diagram__row">
+          <div class="node"><svg aria-hidden="true"><use href="#i-phone"/></svg><span><b>Your phone</b><span>Camera, SMS, dialer, clipboard — used in place</span></span></div>
+          <div class="lockline"><svg aria-hidden="true"><use href="#i-arrow"/></svg></div>
+          <div class="node"><svg aria-hidden="true"><use href="#i-lock"/></svg><span><b>Encrypted store</b><span>History in SQLCipher, key in the Keystore</span></span></div>
+          <div class="lockline"><svg aria-hidden="true"><use href="#i-arrow"/></svg></div>
+          <div class="node node--blocked"><svg aria-hidden="true"><use href="#i-ban"/></svg><span><b>Anything off-device</b><span>No INTERNET permission, so this path does not exist</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 6. what it is not ============ -->
+  <section class="wrap" aria-labelledby="not-title">
+    <div class="section__head">
+      <p class="kicker reveal">Straight answers</p>
+      <h2 class="section__title reveal" id="not-title" style="--d:60ms">What PaySetu is not.</h2>
+      <p class="section__sub reveal" style="--d:120ms">Worth saying plainly, because the category is full of apps that are all of these.</p>
+    </div>
+    <div class="nots">
+      <div class="not reveal" data-glow><svg aria-hidden="true"><use href="#i-bank"/></svg><b>Not a bank</b><p>It holds no money and has no account of yours. Your balance lives with your bank.</p></div>
+      <div class="not reveal" data-glow style="--d:80ms"><svg aria-hidden="true"><use href="#i-ban"/></svg><b>Not a payment aggregator</b><p>It does not route, process or settle payments, and it never touches UPI servers.</p></div>
+      <div class="not reveal" data-glow style="--d:160ms"><svg aria-hidden="true"><use href="#i-key"/></svg><b>Not a wallet</b><p>Nothing is stored for spending later. Each payment goes straight to your bank.</p></div>
+      <div class="not reveal" data-glow style="--d:240ms"><svg aria-hidden="true"><use href="#i-shield"/></svg><b>Not affiliated</b><p>Independent of NPCI and of every bank. It simply prepares their official channel.</p></div>
+    </div>
+  </section>
+
+  <!-- ============ 7. FAQ ============ -->
+  <section class="wrap" id="faq" aria-labelledby="faq-title">
+    <div class="section__head">
+      <p class="kicker reveal">Questions</p>
+      <h2 class="section__title reveal" id="faq-title" style="--d:60ms">The things people ask first.</h2>
+    </div>
+
+    <div class="faq">
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">Does it really work without internet?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>Yes. The <strong>*99#</strong> USSD service and the <strong>123PAY</strong> IVR run over the ordinary phone signal, not data. PaySetu only prepares those channels — it does not need a connection of its own, which is why it does not ask for one.</p></div>
+      </div>
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">Is my UPI PIN safe?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>PaySetu never asks for, sees or stores your PIN. You enter it inside your bank's own <strong>*99#</strong> session or on the 123PAY call, which the app has no way to read.</p></div>
+      </div>
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">Which banks work with it?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>Any bank that supports the <strong>*99#</strong> or <strong>123PAY</strong> channels — that is your bank's and NPCI's service, not ours. If your bank's number works when you dial <strong>*99#</strong> yourself, it works through PaySetu.</p></div>
+      </div>
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">Where is my payment history kept?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>On your phone, in an encrypted SQLCipher database. The key is generated on the device and protected by the Android Keystore, so it cannot be copied off. You can delete any entry, or the whole history, from the History screen — and uninstalling removes everything.</p></div>
+      </div>
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">What happens to the bank's SMS?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>It is read on your phone to work out whether the payment succeeded. The message text is never stored — only a short summary (amount, status, payee, time) goes into your encrypted history. PaySetu cannot send SMS and cannot read your personal messages.</p></div>
+      </div>
+      <div class="q reveal">
+        <button class="q__btn" type="button" aria-expanded="false">Does PaySetu move my money?<svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+        <div class="q__body"><p>No. It prepares the channel and reports what your bank tells you. The payment itself is executed by your bank over NPCI's network, and any dispute about it is between you and your bank.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 8. final CTA ============ -->
+  <section class="wrap" id="get" aria-labelledby="cta-title">
+    <div class="cta reveal">
+      <h2 id="cta-title">Pay anywhere.<br>Even with zero data.</h2>
+      <p>Android 10 and above. No account, no sign-up, no data connection.</p>
+      <a class="btn btn--primary" href="mailto:premiumroy098@gmail.com?subject=PaySetu%20for%20Android" data-magnetic>
+        <svg aria-hidden="true"><use href="#i-android"/></svg> Ask for the Android build
+      </a>
+      <p style="margin-top:16px;font-size:13.5px;color:var(--muted)">Google Play listing in progress — write to us and we will send the APK directly.</p>
+    </div>
+  </section>
+
 </main>
 
+<!-- ============ 9. footer ============ -->
 <footer class="site">
   <div class="wrap">
-    <span>© 2026 Roy Limited · PaySetu</span>
-    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:premiumroy098@gmail.com">Contact</a></span>
+    <div class="foot__grid">
+      <div>
+        <a class="brand" href="index.html"><svg aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">PaySetu</span></a>
+        <p class="foot__note">Published by Roy Limited. Independent of NPCI and of any bank.</p>
+      </div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="privacy-policy.html">Privacy policy</a>
+        <a href="terms.html">Terms of use</a>
+        <a href="mailto:premiumroy098@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <p class="foot__note">© 2026 Roy Limited · PaySetu</p>
   </div>
 </footer>
 
+<script src="script.js" defer></script>
 </body>
 </html>

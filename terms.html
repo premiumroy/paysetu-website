@@ -1,75 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Terms of Use — PaySetu</title>
-<meta name="description" content="Terms of use for the PaySetu Android app.">
-<link rel="stylesheet" href="styles.css">
+<meta name="description" content="Terms of use for the PaySetu Android app: what it does, what it cannot promise, and where responsibility sits.">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://premiumroy.github.io/paysetu-website/terms.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Terms of Use — PaySetu">
+<meta property="og:description" content="What PaySetu does, what it cannot promise, and where responsibility sits.">
+<meta property="og:url" content="https://premiumroy.github.io/paysetu-website/terms.html">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Apply the saved theme before first paint, so there is no flash of the wrong one. */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    try {
+      var t = localStorage.getItem("paysetu-theme");
+      d.setAttribute("data-theme", t === "light" ? "light" : "dark");
+    } catch (e) { d.setAttribute("data-theme", "dark"); }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html"><span class="mark">पे</span> PaySetu</a>
-    <nav class="site">
-      <a href="index.html">Home</a>
-      <a href="privacy-policy.html">Privacy</a>
-      <a href="terms.html" aria-current="page">Terms</a>
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="9" fill="url(#g1)"/>
+    <path d="M8 19c2.6-5.6 5.4-8.4 8-8.4s5.4 2.8 8 8.4" fill="none" stroke="#04120c" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="8" cy="19" r="2.1" fill="#04120c"/><circle cx="24" cy="19" r="2.1" fill="#04120c"/>
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32">
+      <stop offset="0" stop-color="#6d6bff"/><stop offset=".52" stop-color="#22d3ee"/><stop offset="1" stop-color="#12c08a"/>
+    </linearGradient></defs>
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/>
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html" aria-label="PaySetu home">
+      <svg aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">PaySetu</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#privacy">Privacy</a>
+      <a href="index.html#faq">FAQ</a>
     </nav>
+    <div class="nav__right">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch colour theme" title="Switch theme">
+        <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <button class="icon-btn burger" id="burger" type="button" aria-expanded="false" aria-controls="mobilemenu" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="wrap mobile-menu" id="mobilemenu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#privacy">Privacy</a>
+    <a href="privacy-policy.html">Privacy policy</a>
+    <a href="terms.html">Terms</a>
   </div>
 </header>
 
-<main class="wrap">
-  <article class="card">
-    <h1>Terms of Use</h1>
-    <p class="updated">Effective 22 October 2026 · Applies to the PaySetu Android app</p>
+<main id="main" class="legal wrap">
+  <div class="legal__grid">
 
-    <p class="lede">These terms are between you and Roy Limited ("we") and cover your use of the PaySetu app. By installing or using PaySetu, you agree to them. If you do not agree, please uninstall the app.</p>
+    <nav class="toc" aria-label="On this page">
+      <p class="toc__title">On this page</p>
+      <a href="#what-it-does">What PaySetu does</a>
+      <a href="#bank">Your bank relationship</a>
+      <a href="#responsibilities">Your responsibilities</a>
+      <a href="#cannot-promise">What we cannot promise</a>
+      <a href="#records">Records the app keeps</a>
+      <a href="#changes">Changes and availability</a>
+      <a href="#ownership">Ownership</a>
+      <a href="#liability">Liability</a>
+      <a href="#law">Governing law</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-    <h2>1. What PaySetu does</h2>
-    <p>PaySetu is a helper for offline UPI payments. It prepares the NPCI <strong>*99#</strong> USSD session or the <strong>123PAY</strong> call on your phone, and reads your bank's confirmation SMS to show you the outcome. PaySetu does not process payments, does not hold your money, does not act as an agent for any bank, and is not affiliated with NPCI or any bank.</p>
+    <article class="prose">
+      <h1>Terms of Use</h1>
+      <p class="updated">Effective 22 October 2026 · Applies to the PaySetu Android app</p>
 
-    <h2>2. Your bank relationship</h2>
-    <p>Every payment is between you and your bank. Your UPI registration, your UPI PIN, and any dispute about a payment are handled by your bank and by NPCI's channels — not by PaySetu. If a payment fails or goes to the wrong person, raise it with your bank.</p>
+      <p class="lede">These terms are between you and Roy Limited ("we") and cover your use of the PaySetu app. By installing or using PaySetu, you agree to them. If you do not agree, please uninstall the app.</p>
 
-    <h2>3. Your responsibilities</h2>
-    <ul>
-      <li>Check the payee and the amount before you pay. PaySetu shows you what you scanned or typed, but the final confirmation is yours.</li>
-      <li>Keep your UPI PIN and your phone's lock screen secret. PaySetu never asks for your PIN.</li>
-      <li>Use the app only for your own account, and only where it is lawful to do so.</li>
-    </ul>
+      <h2 id="what-it-does">1. What PaySetu does</h2>
+      <p>PaySetu is a helper for offline UPI payments. It prepares the NPCI <strong>*99#</strong> USSD session or the <strong>123PAY</strong> call on your phone, and reads your bank's confirmation SMS to show you the outcome.</p>
+      <p>PaySetu does not process payments, does not hold your money, does not act as an agent for any bank, and is not affiliated with NPCI or any bank.</p>
 
-    <h2>4. What PaySetu cannot promise</h2>
-    <p>The <strong>*99#</strong> and <strong>123PAY</strong> channels are run by NPCI, your bank and your mobile network, not by us. Whether they work, what their menus show, and what each transaction costs depend on them, and can change without notice. PaySetu is provided <strong>as is</strong>. We do not promise that it will be uninterrupted or error-free, and we are not responsible for a payment that fails, is delayed, or is declined by your bank or network.</p>
-    <p>PaySetu is a tool, not financial advice. Nothing in the app is a recommendation to make any particular payment.</p>
+      <h2 id="bank">2. Your bank relationship</h2>
+      <p>Every payment is between you and your bank. Your UPI registration, your UPI PIN, and any dispute about a payment are handled by your bank and by NPCI's channels — not by PaySetu. If a payment fails or goes to the wrong person, raise it with your bank.</p>
 
-    <h2>5. Records the app keeps</h2>
-    <p>The app's history is a record of the confirmation messages your bank sent. It is a convenience, not an official statement. For anything that matters — a dispute, a tax record, a balance — rely on your bank's own statement.</p>
+      <h2 id="responsibilities">3. Your responsibilities</h2>
+      <ul>
+        <li>Check the payee and the amount before you pay. PaySetu shows you what you scanned or typed, but the final confirmation is yours.</li>
+        <li>Keep your UPI PIN and your phone's lock screen secret. PaySetu never asks for your PIN.</li>
+        <li>Use the app only for your own account, and only where it is lawful to do so.</li>
+      </ul>
 
-    <h2>6. Changes and availability</h2>
-    <p>We may update the app and these terms. When we do, the date at the top of this page changes, and material changes are noted in the app's release notes. We may also stop offering the app.</p>
+      <h2 id="cannot-promise">4. What PaySetu cannot promise</h2>
+      <p>The <strong>*99#</strong> and <strong>123PAY</strong> channels are run by NPCI, your bank and your mobile network, not by us. Whether they work, what their menus show, and what each transaction costs depend on them, and can change without notice.</p>
+      <p>PaySetu is provided <strong>as is</strong>. We do not promise that it will be uninterrupted or error-free, and we are not responsible for a payment that fails, is delayed, or is declined by your bank or network.</p>
+      <p>PaySetu is a tool, not financial advice. Nothing in the app is a recommendation to make any particular payment.</p>
 
-    <h2>7. Ownership</h2>
-    <p>The PaySetu app, its name and its content belong to Roy Limited. The app includes open-source components, whose notices are included with the app. You may not copy, resell or reverse-engineer the app except as the law allows.</p>
+      <h2 id="records">5. Records the app keeps</h2>
+      <p>The app's history is a record of the confirmation messages your bank sent. It is a convenience, not an official statement. For anything that matters — a dispute, a tax record, a balance — rely on your bank's own statement.</p>
 
-    <h2>8. Liability</h2>
-    <p>To the extent the law allows, Roy Limited is not liable for any indirect or consequential loss arising from your use of the app, including a failed or misdirected payment. Nothing here limits a right you have under applicable consumer law that cannot be limited.</p>
+      <h2 id="changes">6. Changes and availability</h2>
+      <p>We may update the app and these terms. When we do, the date at the top of this page changes, and material changes are noted in the app's release notes. We may also stop offering the app.</p>
 
-    <h2>9. Governing law</h2>
-    <p>These terms are governed by the laws of India, and the courts of India have jurisdiction.</p>
+      <h2 id="ownership">7. Ownership</h2>
+      <p>The PaySetu app, its name and its content belong to Roy Limited. The app includes open-source components, whose notices are included with the app. You may not copy, resell or reverse-engineer the app except as the law allows.</p>
 
-    <h2>10. Contact</h2>
-    <p>Roy Limited — <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a></p>
-  </article>
+      <h2 id="liability">8. Liability</h2>
+      <p>To the extent the law allows, Roy Limited is not liable for any indirect or consequential loss arising from your use of the app, including a failed or misdirected payment. Nothing here limits a right you have under applicable consumer law that cannot be limited.</p>
+
+      <h2 id="law">9. Governing law</h2>
+      <p>These terms are governed by the laws of India, and the courts of India have jurisdiction.</p>
+
+      <h2 id="contact">10. Contact</h2>
+      <p>Roy Limited — <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a></p>
+    </article>
+  </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>© 2026 Roy Limited · PaySetu</span>
-    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:premiumroy098@gmail.com">Contact</a></span>
+    <div class="foot__grid">
+      <div>
+        <a class="brand" href="index.html"><svg aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">PaySetu</span></a>
+        <p class="foot__note">Published by Roy Limited. Independent of NPCI and of any bank.</p>
+      </div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="privacy-policy.html">Privacy policy</a>
+        <a href="terms.html">Terms of use</a>
+        <a href="mailto:premiumroy098@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <p class="foot__note">© 2026 Roy Limited · PaySetu</p>
   </div>
 </footer>
 
+<script src="script.js" defer></script>
 </body>
 </html>

@@ -1,108 +1,202 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy Policy — PaySetu</title>
-<meta name="description" content="PaySetu privacy policy: what the app accesses on your phone, why, and how your payment history is stored.">
-<link rel="stylesheet" href="styles.css">
+<meta name="description" content="What the PaySetu Android app accesses on your phone, why, what it stores, and what it never touches.">
+<meta name="theme-color" content="#07090f">
+<link rel="canonical" href="https://premiumroy.github.io/paysetu-website/privacy-policy.html">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Privacy Policy — PaySetu">
+<meta property="og:description" content="What PaySetu accesses, what it stores, and what it never touches.">
+<meta property="og:url" content="https://premiumroy.github.io/paysetu-website/privacy-policy.html">
+<meta name="twitter:card" content="summary">
+<script>
+  /* Apply the saved theme before first paint, so there is no flash of the wrong one. */
+  (function () {
+    var d = document.documentElement;
+    d.classList.add("js");
+    try {
+      var t = localStorage.getItem("paysetu-theme");
+      d.setAttribute("data-theme", t === "light" ? "light" : "dark");
+    } catch (e) { d.setAttribute("data-theme", "dark"); }
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="site">
-  <div class="wrap">
-    <a class="brand" href="index.html"><span class="mark">पे</span> PaySetu</a>
-    <nav class="site">
-      <a href="index.html">Home</a>
-      <a href="privacy-policy.html" aria-current="page">Privacy</a>
-      <a href="terms.html">Terms</a>
+<a class="skip" href="#main">Skip to content</a>
+<div class="aurora" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" id="progress" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-mark" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="9" fill="url(#g1)"/>
+    <path d="M8 19c2.6-5.6 5.4-8.4 8-8.4s5.4 2.8 8 8.4" fill="none" stroke="#04120c" stroke-width="2.4" stroke-linecap="round"/>
+    <circle cx="8" cy="19" r="2.1" fill="#04120c"/><circle cx="24" cy="19" r="2.1" fill="#04120c"/>
+    <defs><linearGradient id="g1" x1="0" y1="0" x2="32" y2="32">
+      <stop offset="0" stop-color="#6d6bff"/><stop offset=".52" stop-color="#22d3ee"/><stop offset="1" stop-color="#12c08a"/>
+    </linearGradient></defs>
+  </symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+    <circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/>
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/>
+  </symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="index.html" aria-label="PaySetu home">
+      <svg aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">PaySetu</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#privacy">Privacy</a>
+      <a href="index.html#faq">FAQ</a>
     </nav>
+    <div class="nav__right">
+      <button class="icon-btn" id="theme" type="button" aria-label="Switch colour theme" title="Switch theme">
+        <svg class="icon-sun" aria-hidden="true"><use href="#i-sun"/></svg>
+        <svg class="icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
+      </button>
+      <button class="icon-btn burger" id="burger" type="button" aria-expanded="false" aria-controls="mobilemenu" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="wrap mobile-menu" id="mobilemenu">
+    <a href="index.html#features">Features</a>
+    <a href="index.html#how">How it works</a>
+    <a href="index.html#privacy">Privacy</a>
+    <a href="privacy-policy.html">Privacy policy</a>
+    <a href="terms.html">Terms</a>
   </div>
 </header>
 
-<main class="wrap">
-  <article class="card">
-    <h1>Privacy Policy</h1>
-    <p class="updated">Effective 22 October 2026 · Applies to the PaySetu Android app (package <code>com.paysetu.app</code>)</p>
+<main id="main" class="legal wrap">
+  <div class="legal__grid">
 
-    <p class="lede">PaySetu lets you pay over the UPI <strong>*99#</strong> and <strong>123PAY</strong> channels, which work without mobile data. This page explains exactly what the app accesses on your phone, what it stores, and what it never touches.</p>
+    <nav class="toc" aria-label="On this page">
+      <p class="toc__title">On this page</p>
+      <a href="#who-we-are">Who we are</a>
+      <a href="#how-it-works">How the app works</a>
+      <a href="#access">What it accesses</a>
+      <a href="#not-collected">What it does not collect</a>
+      <a href="#storage">Where data is stored</a>
+      <a href="#protection">How it is protected</a>
+      <a href="#sharing">Sharing</a>
+      <a href="#deletion">Keeping and deleting</a>
+      <a href="#children">Children</a>
+      <a href="#rights">Your choices</a>
+      <a href="#changes">Changes</a>
+      <a href="#contact">Contact</a>
+    </nav>
 
-    <div class="callout">
-      <p><strong>The short version.</strong> PaySetu has no internet permission. It cannot send your information anywhere, because Android does not allow it to open a network connection at all. Everything the app does happens on your phone.</p>
-    </div>
+    <article class="prose">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Effective 22 October 2026 · Applies to the PaySetu Android app (package <code>com.paysetu.app</code>)</p>
 
-    <h2>Who we are</h2>
-    <p>PaySetu is developed and published by <strong>Roy Limited</strong> ("we"). For any question about this policy or your data, write to <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a>.</p>
+      <p class="lede">PaySetu lets you pay over the UPI <strong>*99#</strong> and <strong>123PAY</strong> channels, which work without mobile data. This page explains exactly what the app accesses on your phone, what it stores, and what it never touches.</p>
 
-    <h2>How the app works</h2>
-    <p>PaySetu is a helper for offline UPI payments. When you pay, the app opens your phone's dialer with the NPCI <strong>*99#</strong> USSD code (or the 123PAY IVR number), and you complete the payment with your bank inside that session. PaySetu then reads your bank's confirmation SMS so it can show you the result, and keeps a record in an encrypted history on your phone. PaySetu is not a bank, is not a payment aggregator, and never handles money itself.</p>
+      <div class="note">
+        <p><strong>The short version.</strong> PaySetu has no internet permission. It cannot send your information anywhere, because Android does not allow it to open a network connection at all. Everything the app does happens on your phone.</p>
+      </div>
 
-    <h2>What the app accesses on your device, and why</h2>
-    <table>
-      <thead><tr><th>Access</th><th>Why PaySetu asks for it</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Camera</strong></td><td>To scan a UPI QR code. The code is decoded on your phone. No photo is saved, and nothing is sent.</td></tr>
-        <tr><td><strong>SMS (receive only)</strong></td><td>To read your <em>bank's</em> payment-confirmation SMS, so the app can tell you whether a payment succeeded. The message is read on your phone. The app never stores the message text — only a short summary (amount, status, payee, time). PaySetu never sends an SMS and cannot read your other messages.</td></tr>
-        <tr><td><strong>Phone</strong></td><td>To place the <strong>*99#</strong> / <strong>123PAY</strong> call, and to list the SIMs in your phone so the call goes out from the SIM your bank number is registered on.</td></tr>
-        <tr><td><strong>Answer phone calls</strong></td><td>So the on-screen card can end the call for you when the session is done.</td></tr>
-        <tr><td><strong>Display over other apps</strong></td><td>To show the small guide card over your dialer while a payment is in progress, so you can follow the steps. The card only covers the app's own instructions.</td></tr>
-        <tr><td><strong>Notifications</strong></td><td>To tell you the result of a payment when you are not looking at the app.</td></tr>
-      </tbody>
-    </table>
-    <p>Each of these is asked for at the moment it is needed, and you can refuse any of them. The app explains what it will not work without.</p>
+      <h2 id="who-we-are">Who we are</h2>
+      <p>PaySetu is developed and published by <strong>Roy Limited</strong> ("we"). For any question about this policy or your data, write to <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a>.</p>
 
-    <h3>The payee's UPI ID and your clipboard</h3>
-    <p>During a <strong>*99#</strong> payment the bank's session asks you to type the payee's UPI ID. Because nobody can retype one from memory, PaySetu copies it to your clipboard so you can paste it. On Android 13 and later it is marked sensitive, so it is not previewed in the clipboard banner, and the app clears it when the payment flow ends.</p>
+      <h2 id="how-it-works">How the app works</h2>
+      <p>PaySetu is a helper for offline UPI payments. When you pay, the app opens your phone's dialer with the NPCI <strong>*99#</strong> USSD code (or the 123PAY IVR number), and you complete the payment with your bank inside that session. PaySetu then reads your bank's confirmation SMS so it can show you the result, and keeps a record in an encrypted history on your phone.</p>
+      <p>PaySetu is not a bank, is not a payment aggregator, and never handles money itself.</p>
 
-    <h3>Your UPI PIN</h3>
-    <p>PaySetu <strong>never sees, asks for, or stores your UPI PIN</strong>. You enter it inside the bank's own <strong>*99#</strong> session or on the 123PAY call, which PaySetu cannot read.</p>
+      <h2 id="access">What the app accesses on your device, and why</h2>
+      <table class="perm">
+        <thead><tr><th>Access</th><th>Why PaySetu asks for it</th></tr></thead>
+        <tbody>
+          <tr><td>Camera</td><td>To scan a UPI QR code. The code is decoded on your phone. No photo is saved, and nothing is sent.</td></tr>
+          <tr><td>SMS (receive only)</td><td>To read your <em>bank's</em> payment-confirmation SMS, so the app can tell you whether a payment succeeded. The message is read on your phone. The app never stores the message text — only a short summary (amount, status, payee, time). PaySetu never sends an SMS and cannot read your other messages.</td></tr>
+          <tr><td>Phone</td><td>To place the <strong>*99#</strong> / <strong>123PAY</strong> call, and to list the SIMs in your phone so the call goes out from the SIM your bank number is registered on.</td></tr>
+          <tr><td>Answer phone calls</td><td>So the on-screen card can end the call for you when the session is done.</td></tr>
+          <tr><td>Display over other apps</td><td>To show the small guide card over your dialer while a payment is in progress, so you can follow the steps. The card only covers the app's own instructions.</td></tr>
+          <tr><td>Notifications</td><td>To tell you the result of a payment when you are not looking at the app.</td></tr>
+        </tbody>
+      </table>
+      <p>Each of these is asked for at the moment it is needed, and you can refuse any of them. The app explains what it will not work without.</p>
 
-    <h2>What PaySetu does not collect</h2>
-    <ul>
-      <li>No account, and no sign-up. The app never asks for your name, email or phone number.</li>
-      <li>No internet permission, so no data can be transmitted from your phone.</li>
-      <li>No analytics, no crash-reporting service, no advertising, and no third-party tracking SDKs.</li>
-      <li>No location, no contacts, and no access to your other apps or your photo library.</li>
-      <li>No access to your other messages, and no ability to send an SMS.</li>
-      <li>Your UPI PIN is never seen, and your bank account number and card details are never asked for.</li>
-    </ul>
+      <h3>The payee's UPI ID and your clipboard</h3>
+      <p>During a <strong>*99#</strong> payment the bank's session asks you to type the payee's UPI ID. Because nobody can retype one from memory, PaySetu copies it to your clipboard so you can paste it. On Android 13 and later it is marked sensitive, so it is not previewed in the clipboard banner, and the app clears it when the payment flow ends.</p>
 
-    <h2>Where your information is stored</h2>
-    <p>The app's settings and your payment history are stored <strong>only on your phone</strong>, in the app's own private storage area, which other apps cannot read.</p>
+      <h3>Your UPI PIN</h3>
+      <p>PaySetu <strong>never sees, asks for, or stores your UPI PIN</strong>. You enter it inside the bank's own <strong>*99#</strong> session or on the 123PAY call, which PaySetu cannot read.</p>
 
-    <h2>How your history is protected</h2>
-    <p>Your payment history is kept in a database encrypted with <strong>SQLCipher</strong>. The key that opens it is generated on your phone and protected by the <strong>Android Keystore</strong>, which means the key itself never leaves the device and cannot be copied off it. If the app cannot open the database safely, it sets the old file aside rather than showing you a wrong or empty history.</p>
+      <h2 id="not-collected">What PaySetu does not collect</h2>
+      <ul>
+        <li>No account, and no sign-up. The app never asks for your name, email or phone number.</li>
+        <li>No internet permission, so no data can be transmitted from your phone.</li>
+        <li>No analytics, no crash-reporting service, no advertising, and no third-party tracking SDKs.</li>
+        <li>No location, no contacts, and no access to your other apps or your photo library.</li>
+        <li>No access to your other messages, and no ability to send an SMS.</li>
+        <li>Your UPI PIN is never seen, and your bank account number and card details are never asked for.</li>
+      </ul>
 
-    <h2>Sharing</h2>
-    <p>We do not share your information with anyone, and the app has no technical means to do so — it cannot connect to the internet. Nothing is sold, and nothing is used for advertising.</p>
+      <h2 id="storage">Where your information is stored</h2>
+      <p>The app's settings and your payment history are stored <strong>only on your phone</strong>, in the app's own private storage area, which other apps cannot read.</p>
 
-    <h2>Keeping and deleting your data</h2>
-    <ul>
-      <li>You can delete individual payments, or your whole history, from the <strong>History</strong> screen inside the app at any time.</li>
-      <li>Uninstalling PaySetu removes everything the app stored, including its encrypted history and its key.</li>
-      <li>Because the app holds nothing on a server, there is no separate deletion request to make — there is nothing for us to delete.</li>
-    </ul>
+      <h2 id="protection">How your history is protected</h2>
+      <p>Your payment history is kept in a database encrypted with <strong>SQLCipher</strong>. The key that opens it is generated on your phone and protected by the <strong>Android Keystore</strong>, which means the key itself never leaves the device and cannot be copied off it. If the app cannot open the database safely, it sets the old file aside rather than showing you a wrong or empty history.</p>
 
-    <h2>Children</h2>
-    <p>PaySetu is a financial app and is intended for adults. It is not directed at children under 18, and we do not knowingly collect information from them.</p>
+      <h2 id="sharing">Sharing</h2>
+      <p>We do not share your information with anyone, and the app has no technical means to do so — it cannot connect to the internet. Nothing is sold, and nothing is used for advertising.</p>
 
-    <h2>Your choices and rights</h2>
-    <p>You are in control of everything the app touches. You can refuse any permission, turn off the payee-copy behaviour in Settings, and clear your history whenever you like. If you have a question about how your data is handled, contact us at the address below.</p>
+      <h2 id="deletion">Keeping and deleting your data</h2>
+      <ul>
+        <li>You can delete individual payments, or your whole history, from the <strong>History</strong> screen inside the app at any time.</li>
+        <li>Uninstalling PaySetu removes everything the app stored, including its encrypted history and its key.</li>
+        <li>Because the app holds nothing on a server, there is no separate deletion request to make — there is nothing for us to delete.</li>
+      </ul>
 
-    <h2>Changes to this policy</h2>
-    <p>If this policy changes, we will update the date at the top of this page. Material changes will also be noted in the app's release notes.</p>
+      <h2 id="children">Children</h2>
+      <p>PaySetu is a financial app and is intended for adults. It is not directed at children under 18, and we do not knowingly collect information from them.</p>
 
-    <h2>Contact</h2>
-    <p>Roy Limited — <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a></p>
-  </article>
+      <h2 id="rights">Your choices and rights</h2>
+      <p>You are in control of everything the app touches. You can refuse any permission, turn off the payee-copy behaviour in Settings, and clear your history whenever you like. If you have a question about how your data is handled, contact us at the address below.</p>
+
+      <h2 id="changes">Changes to this policy</h2>
+      <p>If this policy changes, we will update the date at the top of this page. Material changes will also be noted in the app's release notes.</p>
+
+      <h2 id="contact">Contact</h2>
+      <p>Roy Limited — <a href="mailto:premiumroy098@gmail.com">premiumroy098@gmail.com</a></p>
+    </article>
+  </div>
 </main>
 
 <footer class="site">
   <div class="wrap">
-    <span>© 2026 Roy Limited · PaySetu</span>
-    <span><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:premiumroy098@gmail.com">Contact</a></span>
+    <div class="foot__grid">
+      <div>
+        <a class="brand" href="index.html"><svg aria-hidden="true"><use href="#i-mark"/></svg><span class="brand__name">PaySetu</span></a>
+        <p class="foot__note">Published by Roy Limited. Independent of NPCI and of any bank.</p>
+      </div>
+      <nav class="foot__links" aria-label="Footer">
+        <a href="privacy-policy.html">Privacy policy</a>
+        <a href="terms.html">Terms of use</a>
+        <a href="mailto:premiumroy098@gmail.com">Contact</a>
+      </nav>
+    </div>
+    <p class="foot__note">© 2026 Roy Limited · PaySetu</p>
   </div>
 </footer>
 
+<script src="script.js" defer></script>
 </body>
 </html>
